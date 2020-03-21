@@ -1,2 +1,2 @@
-# passc-pipes_and_filters
-Pipes and filters implementation of the chair factory
+# Pipes and filters
+http://staff.cs.upt.ro/~ioana/arhit/2017/t1.html
