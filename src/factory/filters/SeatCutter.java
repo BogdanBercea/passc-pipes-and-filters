@@ -13,8 +13,12 @@ import factory.pipelines.Pipeline;
 
 public class SeatCutter {
     private FurniturePipe       mLoadPipe;
+    private Pipeline            mPipeline;
     private final static int    SEAT_CUTTING_TIME = 1000;
 
+    public SeatCutter(Pipeline pipeline){
+        this.mPipeline = pipeline;
+    }
 
     public void setPipe(FurniturePipe pipe) {
         mLoadPipe = pipe;

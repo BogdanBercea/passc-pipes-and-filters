@@ -12,4 +12,6 @@ public interface Pipeline {
     void    putAssemblersToWork();
     boolean isReady();
     void    stop(int noOfMillis);
+    void    setNoOfChairsToBuild(int noOfInProgressChairs);
+    int    getNoOfChairsToBuild();
 }

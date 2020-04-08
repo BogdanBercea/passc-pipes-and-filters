@@ -14,7 +14,12 @@ import factory.pipelines.Pipeline;
 public class StabilizerAssembler {
     private FurniturePipe       mGetPipe;
     private FurniturePipe       mLoadPipe;
+    private Pipeline            mPipeline;
     private final static int    STABILIZER_ASSEMBLING_TIME = 2000;
+
+    public StabilizerAssembler(Pipeline pipeline){
+        this.mPipeline = pipeline;
+    }
 
     public void setLeftPipe(FurniturePipe leftPipe) {
         mGetPipe = leftPipe;
@@ -25,6 +30,7 @@ public class StabilizerAssembler {
     }
 
     public void build() {
+        int noOfChairsAssembled = 0;
         while(true) {
             if (mGetPipe.getUnassembledChair() == null) {
                 // wait for a chair to put a stabilizer bar on
@@ -36,8 +42,13 @@ public class StabilizerAssembler {
                 }
                 while(mLoadPipe.getUnassembledChair() != null);//wait for others to finish their job....
                 mLoadPipe.setUnassembledChair(mGetPipe.getUnassembledChair());
+                noOfChairsAssembled++;
                 System.out.println("Stabilizer assembler: chair with stabilizer sent!");
                 mGetPipe.setUnassembledChair(null);
+            }
+            //my job here is done
+            if(noOfChairsAssembled == mPipeline.getNoOfChairsToBuild()){
+                break;
             }
         }
     }

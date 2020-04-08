@@ -13,7 +13,12 @@ import factory.pipelines.Pipeline;
 public class BackrestAssembler {
     private FurniturePipe       mLoadPipe;
     private FurniturePipe       mGetPipe;
+    private Pipeline            mPipeline;
     private final static int    BACKREST_ASSEMBLING_TIME = 1500;
+
+    public BackrestAssembler(Pipeline pipeline){
+        mPipeline = pipeline;
+    }
 
     public void setLeftPipe(FurniturePipe leftPipe) {
         mGetPipe = leftPipe;
@@ -24,6 +29,7 @@ public class BackrestAssembler {
     }
 
     public void build() {
+        int noOfAssembledChairs = 0;
         while (true) {
             if (mGetPipe.getUnassembledChair() == null) {
                 //wait until a wild chair in progress appears
@@ -34,10 +40,17 @@ public class BackrestAssembler {
                 }catch(InterruptedException ie){
                     ie.printStackTrace();
                 }
+
                 while (mLoadPipe.getUnassembledChair() != null); //i hate waiting
+                noOfAssembledChairs++;
                 mLoadPipe.setUnassembledChair(mGetPipe.getUnassembledChair());
                 System.out.println("Backrest assembler: Backrest sent!");
                 mGetPipe.clearPipe();
+            }
+
+            //ready to stop
+            if(noOfAssembledChairs == mPipeline.getNoOfChairsToBuild()){
+                break;
             }
         }
     }

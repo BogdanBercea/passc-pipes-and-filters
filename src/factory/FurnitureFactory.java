@@ -29,6 +29,7 @@ public class FurnitureFactory {
 
         if(noOfChairs > 0){
             mPipeline.putAssemblersToWork();
+            mPipeline.setNoOfChairsToBuild(noOfChairs);
             System.out.println("\n\n----------------Chairs: " + noOfChairs + "----------------\n\n");
 
             while(chairIndex < noOfChairs){

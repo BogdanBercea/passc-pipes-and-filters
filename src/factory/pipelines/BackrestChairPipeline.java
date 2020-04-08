@@ -15,18 +15,18 @@ import java.util.ArrayList;
  * Pipeline responsible for backrest chairs making. It needs the workers' order to run.
  */
 public class BackrestChairPipeline implements Pipeline {
-    private ChairPacker mPacker;
-    private Thread mPackerJob;
-    private boolean isFinished;
-    private SeatCutter mSeatCutter;
-    private Thread mBackrestJob;
-    private FeetAssembler mFeetAssembler;
-    private Thread mFeetAssemblerJob;
-    private BackrestAssembler mBackrestAssembler;
-    private StabilizerAssembler mStabilizerAssembler;
-    private Thread mStabilizerAssemblerJob;
-    private static final int NUMBER_OF_PIPES = 4;
-    private ArrayList<FurniturePipe> furniturePipes = new ArrayList<>();
+    private ChairPacker                 mPacker;
+    private Thread                      mPackerJob;
+    private int                         noOfChairs;
+    private SeatCutter                  mSeatCutter;
+    private Thread                      mBackrestJob;
+    private FeetAssembler               mFeetAssembler;
+    private Thread                      mFeetAssemblerJob;
+    private BackrestAssembler           mBackrestAssembler;
+    private StabilizerAssembler         mStabilizerAssembler;
+    private Thread                      mStabilizerAssemblerJob;
+    private static final int            NUMBER_OF_PIPES = 4;
+    private ArrayList<FurniturePipe>    furniturePipes  = new ArrayList<>();
 
     public BackrestChairPipeline() {
         for (int i = 0; i < NUMBER_OF_PIPES; i++) {
@@ -105,11 +105,11 @@ public class BackrestChairPipeline implements Pipeline {
             System.out.println("Insert 5 letters only");
             System.exit(1);
         }
-        if (order.toLowerCase().indexOf('c') == -1 ||
+        if (    order.toLowerCase().indexOf('c') == -1 ||
                 order.toLowerCase().indexOf('b') == -1 ||
                 order.toLowerCase().indexOf('f') == -1 ||
                 order.toLowerCase().indexOf('s') == -1 ||
-                order.toLowerCase().indexOf('p') == -1) {
+                order.toLowerCase().indexOf('p') == -1  ) {
 
             System.out.println("One or more elements from pipeline are missing");
             System.exit(1);
@@ -117,11 +117,11 @@ public class BackrestChairPipeline implements Pipeline {
     }
 
     private void populateFilters() {
-        mPacker = new ChairPacker();
-        mSeatCutter = new SeatCutter();
-        mFeetAssembler = new FeetAssembler();
-        mBackrestAssembler = new BackrestAssembler();
-        mStabilizerAssembler = new StabilizerAssembler();
+        mPacker = new ChairPacker(this);
+        mSeatCutter = new SeatCutter(this);
+        mFeetAssembler = new FeetAssembler(this);
+        mBackrestAssembler = new BackrestAssembler(this);
+        mStabilizerAssembler = new StabilizerAssembler(this);
     }
 
     @Override
@@ -157,6 +157,17 @@ public class BackrestChairPipeline implements Pipeline {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("\n\n--------That's all folks--------\n\n");
+    }
+
+    @Override
+    public synchronized void setNoOfChairsToBuild(int noOfInProgressChairs) {
+        this.noOfChairs = noOfInProgressChairs;
+    }
+
+    @Override
+    public synchronized int getNoOfChairsToBuild() {
+        return noOfChairs;
     }
 
 }
