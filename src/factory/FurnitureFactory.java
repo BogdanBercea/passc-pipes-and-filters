@@ -1,9 +1,17 @@
-import assemblers.ChairInProgress;
+package factory;
 
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import factory.pipelines.Pipeline;
+import factory.chairs.ChairInProgress;
 
+/**
+ * @author Luigi Bolovan
+ *
+ * Furniture factory class.
+ * It receives orders from the clients and passes them to its pipeline.
+ */
 public class FurnitureFactory {
     private Pipeline mPipeline;
 
@@ -11,21 +19,25 @@ public class FurnitureFactory {
         mPipeline = pipeline;
     }
 
-    public void receiveOrders(){
+    public void setPipeline(Pipeline pipeline){
+        mPipeline = pipeline;
+    }
+
+    public void getOrders(){
         int noOfChairs = getNoOfChairs();
-        int i          = 0;
+        int chairIndex = 0;
+
         if(noOfChairs > 0){
             mPipeline.putAssemblersToWork();
-            System.out.println("Chairs: " + noOfChairs);
-            while(i < noOfChairs){
+            System.out.println("\n\n----------------Chairs: " + noOfChairs + "----------------\n\n");
+
+            while(chairIndex < noOfChairs){
                 if(mPipeline.isReady()) {
                     mPipeline.assembleChair(new ChairInProgress());
-                    i++;
+                    chairIndex++;
                 }
             }
-            mPipeline.stop();
         }
-
     }
 
     private int getNoOfChairs() {

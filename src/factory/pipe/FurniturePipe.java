@@ -1,5 +1,13 @@
-package assemblers;
+package factory.pipe;
 
+import factory.chairs.ChairInProgress;
+
+/**
+ * @author Luigi Bolovan
+ *
+ * Pipe class.
+ * Stores ChairInProgress objects that are pushed or pulled by the filters.
+ */
 public class FurniturePipe {
     private ChairInProgress mUnassembledChair;
 
